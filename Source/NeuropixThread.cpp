@@ -1147,7 +1147,20 @@ void NeuropixThread::updateSettings (OwnedArray<ContinuousChannel>* continuousCh
         {
             String streamName;
 
-            if (info.type == stream_type::AP_BAND)
+            // If a rescan fails to reopen the basestation, these streams still describe the
+            // previous probes while getProbes() is shorter (out-of-range Array access returns
+            // nullptr). Keep the existing name.
+            const bool streamNeedsProbe = info.type == stream_type::AP_BAND
+                                          || info.type == stream_type::LFP_BAND
+                                          || info.type == stream_type::BROAD_BAND
+                                          || info.type == stream_type::QUAD_BASE;
+
+            if (streamNeedsProbe && getProbes()[probeIdx] == nullptr)
+            {
+                LOGC ("No probe at index ", probeIdx, " for stream ", i, " - keeping existing stream name.");
+                streamName = currentStream->getName();
+            }
+            else if (info.type == stream_type::AP_BAND)
             {
                 Probe* p = getProbes()[probeIdx];
                 p->updateNamingScheme (p->namingScheme); // update displayName
