@@ -230,7 +230,7 @@ void Neuropixels_QuadBase::calibrate()
 
     errorCode = checkError (Neuropixels::writeProbeConfiguration (basestation->slot, headstage->port, dock, false), "writeProbeConfiguration");
 
-    if (! errorCode == Neuropixels::SUCCESS)
+    if (errorCode != Neuropixels::SUCCESS)
     {
         LOGD ("Failed to write probe config w/ error code: ", errorCode);
     }

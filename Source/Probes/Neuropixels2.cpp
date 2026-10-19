@@ -270,7 +270,7 @@ void Neuropixels2::calibrate()
 
     errorCode = Neuropixels::writeProbeConfiguration (basestation->slot, headstage->port, dock, false);
 
-    if (! errorCode == Neuropixels::SUCCESS)
+    if (errorCode != Neuropixels::SUCCESS)
     {
         isCalibrated = false;
         LOGD ("Failed to write probe config w/ error code: ", errorCode);
