@@ -15,10 +15,10 @@ jobs:
                     - os: windows-2022
                       arch: x64
                       base_name: windows-x86_64
-                    - os: macos-15
+                    - os: macos-26
                       arch: arm64
                       base_name: mac-arm64
-                    - os: macos-15
+                    - os: macos-26
                       arch: x64
                       base_name: mac-x86_64
                     - os: ubuntu-22.04
@@ -34,12 +34,6 @@ jobs:
             - name: Setup Compiler (Windows)
               uses: ilammy/msvc-dev-cmd@138b1c783b65ec697d8342918306b7b2db4e88f1
               if: matrix.os == 'windows-2022'
-
-            - name: Setup Compiler (MacOS)
-              if: matrix.os == 'macos-15'
-              run: |
-                  echo "CC=$(brew --prefix llvm@18)/bin/clang" >> $GITHUB_ENV
-                  echo "CXX=$(brew --prefix llvm@18)/bin/clang++" >> $GITHUB_ENV
 
             - name: Setup Compiler and dependencies (Ubuntu 22)
               if: matrix.os == 'ubuntu-22.04'
